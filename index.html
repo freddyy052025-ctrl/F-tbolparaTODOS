@@ -3,32 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reproductor Privado</title>
-    <!-- Estilos de Video.js -->
+    <title>Stream</title>
     <link href="https://zencdn.net" rel="stylesheet" />
     <style>
         body, html { margin: 0; padding: 0; width: 100%; height: 100%; background-color: #000; overflow: hidden; display: flex; justify-content: center; align-items: center; }
         .video-js { width: 100% !important; height: 100% !important; }
     </style>
 </head>
-<body oncontextmenu="return false;"> <!-- Bloquea el clic derecho -->
+<body>
 
     <video id="player" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto">
-        <!-- REEMPLAZA LA URL DE ABAJO POR TU ENLACE M3U8 PÚBLICO -->
         <source src="https://rtve.es" type="application/x-mpegURL">
     </video>
 
-    <!-- Scripts de Video.js -->
     <script src="https://zencdn.net"></script>
     <script>
-        var player = videojs('player', { fluid: true });
-        
-        // Bloquea atajos de teclado para inspeccionar código (F12, Ctrl+Shift+I, etc.)
-        document.onkeydown = function(e) {
-            if(e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || (e.ctrlKey && e.keyCode == 85)) {
-                return false;
-            }
-        };
+        videojs('player', { fluid: true });
     </script>
 </body>
 </html>
