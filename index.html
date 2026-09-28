@@ -3,27 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stream Privado</title>
-    <!-- Cargamos el reproductor profesional Clappr -->
-    <script src="https://jsdelivr.net"></script>
+    <title>Reproductor Privado</title>
+    <!-- Estilos de Video.js -->
+    <link href="https://zencdn.net" rel="stylesheet" />
     <style>
-        body, html { margin: 0; padding: 0; width: 100%; height: 100%; background-color: #000; overflow: hidden; }
-        #player { width: 100%; height: 100%; }
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; background-color: #000; overflow: hidden; display: flex; justify-content: center; align-items: center; }
+        .video-js { width: 100% !important; height: 100% !important; }
     </style>
 </head>
-<body>
+<body oncontextmenu="return false;"> <!-- Bloquea el clic derecho -->
 
-    <div id="player"></div>
+    <video id="player" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto">
+        <!-- REEMPLAZA LA URL DE ABAJO POR TU ENLACE M3U8 PÚBLICO -->
+        <source src="https://rtvelivestream.rtve.es/rtvesec/la1/la1_main_dvr.m3u8" type="application/x-mpegURL">
+    </video>
 
+    <!-- Scripts de Video.js -->
+    <script src="https://zencdn.net"></script>
     <script>
-        var player = new Clappr.Player({
-            // BORRA LO DE ABAJO Y DEJA LAS COMILLAS SOLAS SI TIENES REPAROS, O PEGA TU ENLACE AQUÍ:
-            source: "https://rtvelivestream.rtve.es/rtvesec/la1/la1_main_dvr.m3u8",
-            parentId: "#player",
-            width: '100%',
-            height: '100%',
-            autoPlay: true
-        });
+        var player = videojs('player', { fluid: true });
+        
+        // Bloquea atajos de teclado para inspeccionar código (F12, Ctrl+Shift+I, etc.)
+        document.onkeydown = function(e) {
+            if(e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || (e.ctrlKey && e.keyCode == 85)) {
+                return false;
+            }
+        };
     </script>
 </body>
 </html>
