@@ -3,30 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reproductor Privado</title>
-    <link href="https://zencdn.net" rel="stylesheet" />
+    <title>Reproductor Optimizado</title>
+    <script src="https://jsdelivr.net"></script>
     <style>
         body, html { margin: 0; padding: 0; width: 100%; height: 100%; background-color: #000; overflow: hidden; display: flex; justify-content: center; align-items: center; }
-        .video-js { width: 100% !important; height: 100% !important; }
+        video { width: 100%; height: 100%; object-fit: contain; }
     </style>
 </head>
-<body oncontextmenu="return false;"> <!-- Bloquea el clic derecho -->
+<body oncontextmenu="return false;">
 
-    <video id="player" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto">
-        <!-- REEMPLAZA LA URL DE ABAJO POR TU ENLACE M3U8 LARGO -->
-        <source src="https://a80.azplay48.me/hls/streama268375/index.m3u8?cst=31baee97a41945d647b290c2f2a8c14c" type="application/x-mpegURL">
-    </video>
+    <video id="video" controls autoplay playsinline></video>
 
-    <script src="https://zencdn.net"></script>
     <script>
-        var player = videojs('player', { fluid: true });
-        
-        // Bloquea atajos de teclado para inspeccionar código (F12, Ctrl+Shift+I, etc.)
-        document.onkeydown = function(e) {
-            if(e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || (e.ctrlKey && e.keyCode == 85)) {
-                return false;
-            }
-        };
+        // PEGA AQUÍ TU URL LARGA NUEVA O ACTUALIZADA
+        var videoSrc = 'https://dglvz29s.fubo18.com/foxsports2_usa/mono.m3u8?token=3d8885ca9d9ea2b8fa51e0d9e5d4ef60f9493c20-ef-1790601241-1790583241';
+        var video = document.getElementById('video');
+
+        if (Hls.isSupported()) {
+            var hls = new Hls({
+                maxMaxBufferLength: 10,
+                enableWorker: true,
+                lowLatencyMode: true
+            });
+            hls.loadSource(videoSrc);
+            hls.attachMedia(video);
+            hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                video.play().catch(function(e) { console.log("Auto-play bloqueado por Chrome"); });
+            });
+        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+            video.src = videoSrc;
+            video.addEventListener('loadedmetadata', function() {
+                video.play();
+            });
+        }
     </script>
 </body>
 </html>
